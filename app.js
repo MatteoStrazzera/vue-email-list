@@ -12,25 +12,32 @@ Far comparire gli indirizzi email solamente quando sono stati tutti generati.
 */
 const { createApp } = Vue
 
-  createApp({
+createApp({
     data() {
-      return {
-        randomEmailList: []
-      }
-    },
-    methods: {
-        callApi(){
-            axios
-            .get('https://flynn.boolean.careers/exercises/api/random/mail')
-            .then((response) => {
-                console.log(response.data.response);
-                this.randomEmailList = response.data.response
-            })
+        return {
+            randomEmailList: [],
+            emailsNumber: 10
         }
     },
-    mounted(){
-        this.callApi()
-        
+    methods: {
+        callApi() {
+            axios
+                .get('https://flynn.boolean.careers/exercises/api/random/mail')
+                .then((response) => {
+                    console.log(response.data.response);
+                    this.randomEmailList.push(response.data.response)
+                })
+        },
+        genrateEmails() {
+            for (let i = 0; i < this.emailsNumber; i++) {
+                this.callApi()
+            }
+
+        }
+    },
+    mounted() {
+        this.genrateEmails()
+
     }
-    
-  }).mount('#app')
+
+}).mount('#app')
