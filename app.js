@@ -15,7 +15,22 @@ const { createApp } = Vue
   createApp({
     data() {
       return {
-        
+        randomEmailList: []
       }
+    },
+    methods: {
+        callApi(){
+            axios
+            .get('https://flynn.boolean.careers/exercises/api/random/mail')
+            .then((response) => {
+                console.log(response.data.response);
+                this.randomEmailList = response.data.response
+            })
+        }
+    },
+    mounted(){
+        this.callApi()
+        
     }
+    
   }).mount('#app')
